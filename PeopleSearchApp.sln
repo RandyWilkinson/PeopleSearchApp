@@ -23,6 +23,12 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "PeopleSearchClient", "Peopl
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "63258"
+		SlnRelativePath = "PeopleSearchClient\"
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6109A7D8-7AC5-4F8E-8F70-1D79B40EEBD1}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
