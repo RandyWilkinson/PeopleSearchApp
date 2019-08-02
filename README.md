@@ -9,6 +9,7 @@ Once you have cloned this repository and installed the dependencies below, the n
 		* Execute 'dotnet ef database update'
 	* Web Api 
 		* Open Visual Studio 2019
+		* Open the PeopleSearchApp.sln file in Visual Studio
 		* Make sure PeopleSearchApi is set as your startup project (right click on the project and chose "Set as Startup Project")
 		* Type ctrl-f5 to start the api
 
