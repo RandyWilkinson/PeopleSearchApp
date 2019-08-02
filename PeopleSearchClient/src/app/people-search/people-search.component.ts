@@ -6,7 +6,7 @@ import {
   catchError,
   debounceTime,
   distinctUntilChanged,
-  switchMap,
+  switchMap,
   tap
 } from 'rxjs/operators';
 

@@ -13,10 +13,6 @@ export class PeopleService {
 
   constructor(private http: HttpClient) { }
 
-  getPeople(): Observable<Person[]> {
-    return this.http.get<Person[]>(this.peopleUrl);
-  }
-
   findPeople(term: string, delay: boolean): Observable<Person[]> {
     term = term.trim();
 

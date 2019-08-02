@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PeopleTableComponent } from './people-table.component';
+import { MatTableModule } from '@angular/material';
+import { CdkTableModule } from '@angular/cdk/table';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('PeopleTableComponent', () => {
   let component: PeopleTableComponent;
@@ -8,7 +11,12 @@ describe('PeopleTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PeopleTableComponent ]
+      declarations: [PeopleTableComponent],
+      imports: [
+        HttpClientModule,
+        MatTableModule,
+        CdkTableModule
+      ]
     })
     .compileComponents();
   }));
