@@ -2,7 +2,7 @@
 This repository holds a simple application built to search for people. This application was built using Visual Studio 2019, Asp.net Core Web Api, and Angular.
 
 ## Installation
-Once you have cloned this repository and installed the dependencies below, the next step is to install and setup the .Net Core backend.
+Once you have cloned this repository and installed the dependencies below, the next step is to install and setup the .Net Core backend then the Angular Frontend.
 * .Net Core Rest Api
 	* MS Sql Server Database
 		* Open a cmd window in the PeopleSearchApp\PeopleSearchApi directory
