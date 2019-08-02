@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PeopleSearchApi.Models;
 using PeopleSearchApi.Repositories;
+using Microsoft.AspNetCore.Hosting;
+using System;
 
 namespace PeopleSearchApi.Controllers
 {
@@ -13,92 +15,65 @@ namespace PeopleSearchApi.Controllers
     public class PeopleController : ControllerBase
     {
         private readonly PeopleDBContext _context;
-
-        public PeopleController(PeopleDBContext context)
+        private readonly IHostingEnvironment _env;
+        private Random random = new Random();
+        public PeopleController(PeopleDBContext context, IHostingEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
-        // GET: api/People
+        /// <summary>
+        /// GET: api/People
+        /// A people getter that uses a criteria query string parameter to do a
+        /// text search of the first and last names.
+        /// </summary>
+        /// <param name="criteria"></param>
+        /// <returns>A list of people that match</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Person>>> GetPersons()
+        public async Task<ActionResult<IEnumerable<Person>>> GetPersons(string criteria)
         {
-            return await _context.Persons.ToListAsync();
-        }
-
-        // GET: api/People/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Person>> GetPerson(string id)
-        {
-            var person = await _context.Persons.FindAsync(id);
-
-            if (person == null)
+            if (string.IsNullOrEmpty(criteria))
             {
-                return NotFound();
-            }
-
-            return person;
-        }
-
-        // PUT: api/People/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPerson(string id, Person person)
-        {
-            if (id != person.PersonId)
+                return await _context.Persons.ToListAsync();
+            } else
             {
-                return BadRequest();
+                return await _context.Persons.Where(p => p.FirstName.Contains(criteria) || p.LastName.Contains(criteria)).ToListAsync();
             }
-
-            _context.Entry(person).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PersonExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
-        // POST: api/People
-        [HttpPost]
-        public async Task<ActionResult<Person>> PostPerson(Person person)
+        
+        /// <summary>
+        /// GET: api/People/slow
+        /// This is the artificially slow version of the people getter.
+        /// </summary>
+        /// <param name="criteria"></param>
+        /// <returns> A list of people that match the criteria or all of them</returns>
+        [HttpGet("slow")]
+        public async Task<ActionResult<IEnumerable<Person>>> GetSlowPersons(string criteria)
         {
-            _context.Persons.Add(person);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPerson", new { id = person.PersonId }, person);
+            // lets wait a random amount of time between 1 and 3 secs
+            var delayAmount = random.Next(1000,3000);
+            await Task.Delay(delayAmount);
+            return await this.GetPersons(criteria);
         }
 
-        // DELETE: api/People/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Person>> DeletePerson(string id)
+ 
+        /// <summary>
+        /// Get the image for this person based on their id. Currently storing the images on the filesystem
+        /// for simplicity, but because this is abastracted behind the API we could easily move it to the db
+        /// if needed. Images are from unsplash.com
+        /// </summary>
+        /// <param name="id">The person id for whom the image belongs.</param>
+        /// <returns></returns>
+        [HttpGet("pic/{id}")]
+        public IActionResult GetImage(string id)
         {
-            var person = await _context.Persons.FindAsync(id);
-            if (person == null)
-            {
-                return NotFound();
-            }
-
-            _context.Persons.Remove(person);
-            await _context.SaveChangesAsync();
-
-            return person;
+            var imagePath = $@"{_env.ContentRootPath}\Images\{id}.jpg";
+            return PhysicalFile(imagePath, "image/jpeg");
         }
 
-        private bool PersonExists(string id)
-        {
-            return _context.Persons.Any(e => e.PersonId == id);
-        }
+
+        
     }
 }

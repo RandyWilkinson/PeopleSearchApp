@@ -14,14 +14,18 @@ export class PeopleTableComponent implements OnInit {
 
   dataSource: MatTableDataSource<Person>;
 
-  displayedColumns: string[] = ['FirstName','LastName','Address'];
+  displayedColumns: string[] = ['ImageUrl','FirstName', 'LastName', 'Address', 'Age', 'Interests'];
 
   constructor(private peopleApi: PeopleService) { }
 
   ngOnInit() {
-    this.peopleApi.getPeople().subscribe((results: Person[]) =>
-      this.dataSource = new MatTableDataSource(results));
+    this.dataSource = new MatTableDataSource(this.people);
+  }
 
+  ngOnChanges() {
+    if (this.dataSource) {
+      this.dataSource.data = this.people;
+    }
   }
 
 }

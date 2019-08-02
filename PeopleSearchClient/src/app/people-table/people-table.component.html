@@ -2,29 +2,48 @@
   <div class="row">
     <div class="col">
       
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
-
-        <!-- First Name Column -->
-        <ng-container matColumnDef="FirstName">
-          <th mat-header-cell *matHeaderCellDef> First Name </th>
-          <td mat-cell *matCellDef="let row"> {{row.firstName}} </td>
+      <mat-table [hidden]="dataSource == null || dataSource.data == null || dataSource.data.length == 0" [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+        <!-- ImageUrl Definition -->
+        <ng-container cdkColumnDef="ImageUrl" class="w-25">
+          <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+          <mat-cell *cdkCellDef="let row"><img [src]="row.imageUrl" class="people-Image" /></mat-cell>
         </ng-container>
 
-        <!-- Last Name Column -->
-        <ng-container matColumnDef="LastName">
-          <th mat-header-cell *matHeaderCellDef> Last Name </th>
-          <td mat-cell *matCellDef="let row"> {{row.lastName}} </td>
+        <!-- FirstName Definition -->
+        <ng-container cdkColumnDef="FirstName">
+          <mat-header-cell *cdkHeaderCellDef> First Name </mat-header-cell>
+          <mat-cell *cdkCellDef="let row"> {{row.firstName}} </mat-cell>
         </ng-container>
 
-        <!-- Address Column -->
-        <ng-container matColumnDef="Address">
-          <th mat-header-cell *matHeaderCellDef> Address </th>
-          <td mat-cell *matCellDef="let row"> {{row.address}} </td>
+        <!-- LastName Definition -->
+        <ng-container cdkColumnDef="LastName">
+          <mat-header-cell *cdkHeaderCellDef> LastName </mat-header-cell>
+          <mat-cell *cdkCellDef="let row"> {{row.lastName}} </mat-cell>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+        <!-- Address Definition -->
+        <ng-container cdkColumnDef="Address">
+          <mat-header-cell *cdkHeaderCellDef> Address </mat-header-cell>
+          <mat-cell *cdkCellDef="let row"> {{row.address}} </mat-cell>
+        </ng-container>
+
+        <!-- Age Definition -->
+        <ng-container cdkColumnDef="Age" class="w-25">
+          <mat-header-cell *cdkHeaderCellDef> Age </mat-header-cell>
+          <mat-cell *cdkCellDef="let row"> {{row.age}} </mat-cell>
+        </ng-container>
+
+        <!-- Interests Definition -->
+        <ng-container cdkColumnDef="Interests">
+          <mat-header-cell *cdkHeaderCellDef> Interests </mat-header-cell>
+          <mat-cell *cdkCellDef="let row"> {{row.interests}} </mat-cell>
+        </ng-container>
+
+
+        <!-- Header and Row Declarations -->
+        <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *cdkRowDef="let element; columns: displayedColumns"></mat-row>
+      </mat-table>
 
     </div>
     </div>
