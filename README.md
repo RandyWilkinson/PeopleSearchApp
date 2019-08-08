@@ -16,7 +16,7 @@ Once you have cloned this repository and installed the dependencies below, the n
 * Angular Frontend
 	* Open a cmd window in the PeopleSearchApp\PeopleSearchClient directory
 	* Execute 'npm install'
-	* Execute 'ng serve'
+	* Execute 'npm start'
 	* open your browser to http://localhost:4200
 
 ### Dependencies
