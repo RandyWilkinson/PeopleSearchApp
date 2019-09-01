@@ -9,7 +9,8 @@ namespace PeopleSearchApi.Repositories
 {
     public interface IPeopleRepository
     {
-        DbSet<Person> Persons { get; set; }
+
+        Task<List<Person>> FindPersonsByName(string criteria);
 
     }
 }

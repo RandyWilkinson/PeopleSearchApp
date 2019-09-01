@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace PeopleSearchApi.Test
 {
-    public class PeopleControllerTest
+    public class PeopleDBContextTest
     {
         [Fact]
         public async void GetPersonsTest()
@@ -31,7 +31,7 @@ namespace PeopleSearchApi.Test
                     new Person { PersonId= "5", FirstName = "first1", LastName= "test1" }
                 }.ToArray();
 
-            // Setup or test data in the InMemory database
+            // Setup test data in the InMemory database
             using (var context = new PeopleDBContext(options))
             {
                 context.Persons.AddRange(testPersons);
@@ -44,16 +44,13 @@ namespace PeopleSearchApi.Test
             // Use a clean instance of the context to run the test
             using (var context = new PeopleDBContext(options))
             {
-                // build the controller
-                PeopleController peopleController = new PeopleController(context, hostingEnv.Object);
-
                 /* Act */
-                var result = await peopleController.GetPersons("es");
+                var result = await context.FindPersonsByName("es");
 
                 /* Assert */
-                Assert.Equal(4, result.Value.Count());
+                Assert.Equal(4, result.Count());
 
-                var testResult = result.Value.ToArray();
+                var testResult = result.ToArray();
 
                 // should contain all but the middle person
                 Assert.Equal("1", testResult[0].PersonId);

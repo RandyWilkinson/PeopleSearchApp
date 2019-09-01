@@ -122,5 +122,17 @@ namespace PeopleSearchApi.Repositories
               }
             );
         }
+
+        public async Task<List<Person>> FindPersonsByName(string criteria)
+        {
+            if (string.IsNullOrEmpty(criteria))
+            {
+                return await Persons.ToListAsync();
+            }
+            else
+            {
+                return await Persons.Where(p => p.FirstName.Contains(criteria) || p.LastName.Contains(criteria)).ToListAsync();
+            }
+        }
     }
 }

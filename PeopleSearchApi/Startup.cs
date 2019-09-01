@@ -29,6 +29,7 @@ namespace PeopleSearchApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<PeopleDBContext>(
                 option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IPeopleRepository, PeopleDBContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

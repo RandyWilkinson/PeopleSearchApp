@@ -14,12 +14,12 @@ namespace PeopleSearchApi.Controllers
     [ApiController]
     public class PeopleController : ControllerBase
     {
-        private readonly PeopleDBContext _context;
+        private readonly IPeopleRepository _repo;
         private readonly IHostingEnvironment _env;
         private Random random = new Random();
-        public PeopleController(PeopleDBContext context, IHostingEnvironment env)
+        public PeopleController(IPeopleRepository repository, IHostingEnvironment env)
         {
-            _context = context;
+            _repo = repository;
             _env = env;
         }
 
@@ -33,13 +33,7 @@ namespace PeopleSearchApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Person>>> GetPersons(string criteria)
         {
-            if (string.IsNullOrEmpty(criteria))
-            {
-                return await _context.Persons.ToListAsync();
-            } else
-            {
-                return await _context.Persons.Where(p => p.FirstName.Contains(criteria) || p.LastName.Contains(criteria)).ToListAsync();
-            }
+            return await _repo.FindPersonsByName(criteria);
         }
 
         
